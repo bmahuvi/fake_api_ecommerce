@@ -1,6 +1,15 @@
 # fake_api
 
-A new Flutter project.
+A simple e-commerce app using [Fake API](https://fakestoreapi.com/docs) .
+
+PACKAGES:
+1. [Provider](https://pub.dev/packages/provider) for state management
+2. [GetX](https://pub.dev/packages/get) for Navigation
+3. [Http](https://pub.dev/packages/http) for Http requests
+4. [Cached Network Image](https://pub.dev/packages/cached_network_image) to display network images and keep them in cache directory
+
+FONT NAME:
+1. [Nunito](https://fonts.google.com/specimen/Nunito)
 
 ## Getting Started
 
