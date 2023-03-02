@@ -1,7 +1,10 @@
 import 'package:fake_api/logic/view_models/products_provider.dart';
 import 'package:fake_api/ui/widgets/info_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+
+import '../routes/app_routes.dart';
 
 class ProductCategories extends StatefulWidget {
   const ProductCategories({Key? key}) : super(key: key);
@@ -22,7 +25,6 @@ class _ProductCategoriesState extends State<ProductCategories> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
     return Consumer<ProductProvider>(builder: (_, provider, child) {
       return Padding(
         padding: const EdgeInsets.only(top: 20.0, bottom: 18),
@@ -50,19 +52,25 @@ class _ProductCategoriesState extends State<ProductCategories> {
                     itemCount: provider.categories!.length,
                     itemBuilder: (context, index) {
                       final category = provider.categories![index];
-                      return Card(
-                        color:
-                            Colors.primaries[index % Colors.primaries.length],
-                        child: Center(
-                          child: Text(
-                            category.toString().toUpperCase(),
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700),
+                      return GestureDetector(
+                        onTap: () {
+                          provider.setCategoryName(category);
+                          Get.toNamed(AppRoutes.categoryProducts);
+                        },
+                        child: Card(
+                          color:
+                              Colors.primaries[index % Colors.primaries.length],
+                          child: Center(
+                            child: Text(
+                              category.toString().toUpperCase(),
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge!
+                                  .copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700),
+                            ),
                           ),
                         ),
                       );

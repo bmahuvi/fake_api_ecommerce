@@ -1,5 +1,4 @@
 import 'package:fake_api/ui/app.dart';
-import 'package:fake_api/ui/products/product_details.dart';
 import 'package:fake_api/ui/products/products_by_category.dart';
 import 'package:fake_api/ui/products/products_cart.dart';
 import 'package:fake_api/ui/routes/app_routes.dart';
@@ -11,7 +10,6 @@ class AppPages {
     GetPage(name: AppRoutes.splash, page: () => const Splash()),
     GetPage(name: AppRoutes.home, page: () => const App()),
     GetPage(name: AppRoutes.cart, page: () => const ProductsCart()),
-    GetPage(name: AppRoutes.productDetails, page: () => const ProductDetails()),
     GetPage(
         name: AppRoutes.categoryProducts,
         page: () => const ProductsByCategory()),

@@ -1,6 +1,7 @@
 import 'package:fake_api/logic/view_models/products_provider.dart';
 import 'package:fake_api/ui/widgets/cart_icon_with_badge.dart';
 import 'package:fake_api/ui/widgets/info_widget.dart';
+import 'package:fake_api/ui/widgets/products_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -46,9 +47,7 @@ class _ProductsByCategoryState extends State<ProductsByCategory> {
                             text: snapshot.error.toString());
                       } else if (snapshot.connectionState ==
                           ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
+                        return const ProductsShimmer();
                       } else {
                         return ProductGrid(
                             products: provider.productsByCategory);

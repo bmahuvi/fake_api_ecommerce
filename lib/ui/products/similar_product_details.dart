@@ -11,10 +11,10 @@ import '../../logic/models/product.dart';
 import '../widgets/custom_bottom_sheet.dart';
 import '../widgets/image_container.dart';
 import '../widgets/star_rating.dart';
-import 'similar_product_details.dart';
+import 'product_details.dart';
 
-class ProductDetails extends StatelessWidget {
-  const ProductDetails({super.key, required this.model});
+class SimilarProductDetails extends StatelessWidget {
+  const SimilarProductDetails({super.key, required this.model});
   final ProductModel model;
 
   @override
@@ -230,142 +230,134 @@ class ProductDetails extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      const Divider(),
-                      Visibility(
-                        visible: false,
-                        child: Consumer<ProductProvider>(
-                            builder: (_, provider, child) => Column(
-                                  children: [
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                            child: Text(
-                                          'Similar Products',
-                                          style: theme.textTheme.titleLarge!
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w600),
-                                        )),
-                                      ],
-                                    ),
-                                    Container(
-                                      margin: const EdgeInsets.only(
-                                          top: 20, bottom: 16),
-                                      constraints: const BoxConstraints(
-                                          minHeight: 120, maxHeight: 300),
-                                      child: GridView.builder(
-                                        itemCount:
-                                            provider.similarProducts.length,
-                                        scrollDirection: Axis.horizontal,
-                                        gridDelegate:
-                                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                                mainAxisExtent: 220,
-                                                crossAxisCount: 1),
-                                        itemBuilder: (context, index) {
-                                          final product =
-                                              provider.similarProducts[index];
-                                          return Card(
-                                            elevation: 4,
-                                            clipBehavior: Clip.hardEdge,
-                                            color: theme
-                                                .colorScheme.primaryContainer,
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(8),
-                                              child: InkWell(
-                                                onTap: () {
-                                                  Provider.of<ProductProvider>(
-                                                          context,
-                                                          listen: false)
-                                                      .setCategoryName(
-                                                          product.category);
-                                                  Provider.of<ProductProvider>(
-                                                          context,
-                                                          listen: false)
-                                                      .setProductId(product.id);
-                                                  Get.off(() =>
-                                                      SimilarProductDetails(
-                                                          model: product));
-                                                },
-                                                child: Column(
-                                                  children: [
-                                                    ImageContainer(
-                                                        imageUrl: product.image,
-                                                        productId: product.id,
-                                                        height: 100,
-                                                        width: 100),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 8.0),
-                                                          child: StarRating(
-                                                            size: 18,
-                                                            rating: product
-                                                                .rating.rate,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                            ' (${product.rating.count})')
-                                                      ],
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 16,
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 16.0,
-                                                              right: 8),
-                                                      child: ProductTitle(
-                                                        title: product.title,
-                                                        maxLines: 2,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                      ),
-                                                    ),
-                                                    Align(
-                                                      alignment:
-                                                          Alignment.centerRight,
-                                                      child: Padding(
+                      Consumer<ProductProvider>(
+                          builder: (_, provider, child) => Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                  const Divider(),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                          child: Text(
+                                        'Similar Products',
+                                        style: theme.textTheme.titleLarge!
+                                            .copyWith(
+                                                fontWeight: FontWeight.w600),
+                                      )),
+                                    ],
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(
+                                        top: 20, bottom: 16),
+                                    constraints: const BoxConstraints(
+                                        minHeight: 120, maxHeight: 300),
+                                    child: GridView.builder(
+                                      itemCount:
+                                          provider.similarProducts.length,
+                                      scrollDirection: Axis.horizontal,
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                              mainAxisExtent: 220,
+                                              crossAxisCount: 1),
+                                      itemBuilder: (context, index) {
+                                        final product =
+                                            provider.similarProducts[index];
+                                        return Card(
+                                          elevation: 4,
+                                          clipBehavior: Clip.hardEdge,
+                                          color: theme
+                                              .colorScheme.primaryContainer,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8),
+                                            child: InkWell(
+                                              onTap: () {
+                                                Provider.of<ProductProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .setCategoryName(
+                                                        product.category);
+                                                Provider.of<ProductProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .setProductId(product.id);
+                                                Get.off(() => ProductDetails(
+                                                    model: product));
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  ImageContainer(
+                                                      imageUrl: product.image,
+                                                      productId: product.id,
+                                                      height: 100,
+                                                      width: 100),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                .only(
-                                                          top: 16,
-                                                        ),
-                                                        child: Text(
-                                                          '\$ ${product.price.toStringAsFixed(2)}',
-                                                          textAlign:
-                                                              TextAlign.right,
-                                                          style: theme.textTheme
-                                                              .bodyLarge!
-                                                              .copyWith(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
+                                                                    .only(
+                                                                left: 8.0),
+                                                        child: StarRating(
+                                                          size: 18,
+                                                          rating: product
+                                                              .rating.rate,
                                                         ),
                                                       ),
-                                                    )
-                                                  ],
-                                                ),
+                                                      Text(
+                                                          ' (${product.rating.count})')
+                                                    ],
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 16,
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 16.0,
+                                                            right: 8),
+                                                    child: ProductTitle(
+                                                      title: product.title,
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                  ),
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.centerRight,
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                        top: 16,
+                                                      ),
+                                                      child: Text(
+                                                        '\$ ${product.price.toStringAsFixed(2)}',
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                        style: theme.textTheme
+                                                            .bodyLarge!
+                                                            .copyWith(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
                                               ),
                                             ),
-                                          );
-                                        },
-                                      ),
+                                          ),
+                                        );
+                                      },
                                     ),
-                                  ],
-                                )),
-                      )
+                                  ),
+                                ],
+                              ))
                     ],
                   ),
                 ),

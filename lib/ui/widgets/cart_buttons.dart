@@ -21,7 +21,7 @@ class CartButtons extends StatelessWidget {
                     onPressed: model.cartCount == 1
                         ? null
                         : () {
-                            provider.changeCartCount(model.id, "-");
+                            provider.changeCartCount(model, "-");
                           },
                     icon: Icon(
                       Icons.remove_circle,
@@ -46,7 +46,7 @@ class CartButtons extends StatelessWidget {
                     onPressed: model.cartCount == AppData.maxCartValue
                         ? null
                         : () {
-                            provider.changeCartCount(model.id, "+");
+                            provider.changeCartCount(model, "+");
                           },
                     icon: Icon(
                       Icons.add_circle,

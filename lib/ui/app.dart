@@ -1,6 +1,6 @@
-import 'package:fake_api/ui/products/product_categories.dart';
-import 'package:fake_api/ui/products/products_view.dart';
+import 'package:fake_api/logic/view_models/navigation_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
@@ -9,44 +9,36 @@ class App extends StatefulWidget {
   State<App> createState() => _AppState();
 }
 
-class _AppState extends State<App> with SingleTickerProviderStateMixin {
+class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-          appBar: AppBar(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  "assets/images/cart.png",
-                  height: 32,
-                ),
-                const SizedBox(
-                  width: 12,
-                ),
-                const Text(
-                  'FakeAPI',
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                ),
-              ],
-            ),
-            bottom: const TabBar(
-                indicatorWeight: 4,
-                indicatorSize: TabBarIndicatorSize.label,
-                tabs: [
-                  Tab(
-                    icon: Icon(Icons.list_alt),
-                    text: 'Products',
-                  ),
-                  Tab(
-                    icon: Icon(Icons.dashboard),
-                    text: 'Categories',
-                  ),
-                ]),
-          ),
-          body: TabBarView(children: [ProductsView(), ProductCategories()])),
+    return Scaffold(
+      body: Consumer<NavigationProvider>(
+          builder: (context, page, child) => page.appPage),
+      bottomNavigationBar: Consumer<NavigationProvider>(
+          builder: (context, nav, child) => NavigationBar(
+                  selectedIndex: nav.selectedTabIndex,
+                  onDestinationSelected: (newTabIndex) {
+                    nav.changeTab(newTabIndex);
+                  },
+                  destinations: const [
+                    NavigationDestination(
+                        icon: Icon(Icons.explore_outlined),
+                        selectedIcon: Icon(Icons.explore),
+                        label: 'Explore'),
+                    NavigationDestination(
+                        icon: Icon(Icons.dashboard_outlined),
+                        selectedIcon: Icon(Icons.dashboard),
+                        label: 'Categories'),
+                    NavigationDestination(
+                        icon: Icon(Icons.person_outline),
+                        selectedIcon: Icon(Icons.person),
+                        label: 'Profile'),
+                    NavigationDestination(
+                        icon: Icon(Icons.settings_outlined),
+                        selectedIcon: Icon(Icons.settings),
+                        label: 'Settings'),
+                  ])),
     );
   }
 }

@@ -1,9 +1,10 @@
 import 'package:fake_api/logic/view_models/products_provider.dart';
+import 'package:fake_api/ui/products/product_grid.dart';
+import 'package:fake_api/ui/widgets/grid_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/info_widget.dart';
-import 'product_grid.dart';
 
 class ProductsView extends StatefulWidget {
   const ProductsView({Key? key}) : super(key: key);
@@ -31,9 +32,7 @@ class _ProductsViewState extends State<ProductsView> {
               return InfoWidget(
                   iconData: Icons.error_outline, text: "${snapshot.error}");
             } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return const GridShimmer(itemCount: 6);
             } else {
               return ProductGrid(products: provider.products);
             }

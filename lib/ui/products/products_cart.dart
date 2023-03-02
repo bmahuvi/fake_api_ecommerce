@@ -7,65 +7,19 @@ import 'package:provider/provider.dart';
 
 import '../widgets/image_container.dart';
 
-class ProductsCart extends StatelessWidget {
+class ProductsCart extends StatefulWidget {
   const ProductsCart({super.key});
 
+  @override
+  State<ProductsCart> createState() => _ProductsCartState();
+}
+
+class _ProductsCartState extends State<ProductsCart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('CART'),
-        actions: [
-          Consumer<ProductProvider>(
-            builder: (context, provider, child) => Visibility(
-                visible: provider.cartItems.isNotEmpty,
-                child: TextButton(
-                    style: TextButton.styleFrom(
-                        textStyle: const TextStyle(fontSize: 15)),
-                    onPressed: () async {
-                      await showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                                icon: const Icon(
-                                  Icons.info_outline,
-                                  size: 48,
-                                ),
-                                title: const Text("Clear the cart"),
-                                content: const Text(
-                                    'All items in the cart will be cleared'),
-                                actions: [
-                                  TextButton(
-                                      style: TextButton.styleFrom(
-                                          textStyle:
-                                              const TextStyle(fontSize: 16)),
-                                      onPressed: () {
-                                        Navigator.pop(context, true);
-                                      },
-                                      child: const Text('Yes')),
-                                  TextButton(
-                                      style: TextButton.styleFrom(
-                                          textStyle:
-                                              const TextStyle(fontSize: 16)),
-                                      onPressed: () {
-                                        Navigator.pop(context, false);
-                                      },
-                                      child: const Text('No'))
-                                ],
-                              )).then((value) {
-                        if (value) {
-                        } else {}
-                      });
-                    },
-                    child: Text(
-                      'Clear cart',
-                      style:
-                          TextStyle(color: Theme.of(context).colorScheme.error),
-                    ))),
-          ),
-          const SizedBox(
-            width: 12,
-          ),
-        ],
       ),
       body: Consumer<ProductProvider>(
           builder: (_, provider, child) => provider.cartItems.isEmpty
@@ -78,6 +32,7 @@ class ProductsCart extends StatelessWidget {
               : ListView.separated(
                   itemBuilder: (context, index) {
                     final item = provider.cartItems[index];
+
                     return Card(
                       elevation: 2,
                       child: Padding(
@@ -129,7 +84,19 @@ class ProductsCart extends StatelessWidget {
                             CircleAvatar(
                               child: IconButton(
                                   onPressed: () {
-                                    provider.removeProduct(item);
+                                    provider.removeProduct(item.id);
+                                    if (!provider.cartItems.contains(item)) {
+                                      ScaffoldMessenger.of(context)
+                                          .clearSnackBars();
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                        content: Text(
+                                          "Product removed from the cart",
+                                          style: TextStyle(fontSize: 16),
+                                        ),
+                                        duration: Duration(seconds: 2),
+                                      ));
+                                    }
                                   },
                                   icon: const Icon(Icons.close)),
                             )
@@ -142,6 +109,27 @@ class ProductsCart extends StatelessWidget {
                         height: 8,
                       ),
                   itemCount: provider.cartItems.length)),
+      bottomNavigationBar: Consumer<ProductProvider>(
+        builder: (_, provider, child) {
+          return BottomAppBar(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                    child: Row(
+                  children: [
+                    const Text("Grand Total"),
+                    Text(" ${provider.sum.toStringAsFixed(2)}"),
+                  ],
+                )),
+                Expanded(
+                    child: FilledButton(
+                        onPressed: () {}, child: const Text("Checkout")))
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

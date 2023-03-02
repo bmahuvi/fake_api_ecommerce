@@ -30,14 +30,12 @@ class ProductService {
   FETCH CATEGORIES
    */
   Future<List<String>> getCategories() async {
-    print("_______________here_____________");
     List<String> categories = [];
     try {
       final resp = await http
           .get(Uri.parse(
               Uri.encodeFull("${AppData.baseUrl}/products/categories")))
           .timeout(AppData.httpTimeout);
-      print(resp.body);
 
       if (resp.statusCode == 200) {
         categories = categoryModelFromJson(resp.body);
